@@ -1,4 +1,3 @@
-import Util from 'utils/Util';
 import Observer from 'conditioner/utils/Observer';
 
 /**
@@ -62,18 +61,27 @@ class Controller {
     }
 
     /**
-     * Helper method for exposing a Toggle.
+     * Helper method for exposing Toggles.
      * @public
      * @param {String} targets
      */
-    getToggle(targets) {
+    getToggles(targets) {
 
         if (!targets) { return []; }
 
         return targets.split(',').map(element => {
-            return Util.getItem(this._toggles, item => { return item.id === element });
+            return this._getToggle(element);
         });
 
+    }
+
+    /**
+     * Helper method for getting a toggle by id.
+     * @private
+     * @param {String} element
+     */
+    _getToggle(element) {
+        return this._toggles.find(toggle => toggle.id === element);
     }
 
     /**

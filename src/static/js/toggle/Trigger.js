@@ -1,6 +1,5 @@
 import Controller from 'toggle/Controller';
 import Toggle from 'toggle/Toggle';
-import Observer from 'conditioner/utils/Observer';
 
 /**
  * Default values event and method
@@ -65,7 +64,7 @@ class Trigger {
             e.preventDefault();
         }
 
-        if (!this._targets) { this._getTargets(); }
+        if (!this._targets) { this._setTargets(); }
         this._targets.forEach((element, index) => {
 
             // check if there are multiple methods otherwise use one
@@ -82,12 +81,20 @@ class Trigger {
      * Get the toggle targets
      * @private
      */
-    _getTargets() {
+    _setTargets() {
 
         // get targets through controller
-        this._targets = Controller.getToggle(this._options.targets);
+        this._targets = Controller.getToggles(this._options.targets);
         if (this._toggle) { this._targets.push(this._toggle); }
 
+    }
+
+    /**
+     * Expose targets
+     * @public
+     */
+    getTargets() {
+        return this._targets;
     }
 
     /**

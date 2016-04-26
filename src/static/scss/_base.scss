@@ -1,0 +1,55 @@
+$font-base: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+body {
+    font-family: $font-base;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+main {
+    margin: 0 auto;
+    width: 1024px;
+    box-sizing: border-box;
+    padding: 60px 30px;
+}
+
+.btn {
+
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-family: $font-base;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    &:focus {
+        outline: 0;
+    }
+
+    &:hover, &[data-toggle-active="true"]:hover {
+        border-color: #adadad;
+        background-color: #e6e6e6;
+    }
+
+    &[data-toggle-active="true"] {
+        border-color: #8c8c8c;
+        background-color: #d4d4d4;
+    }
+
+}
+
+.box[data-toggle-active="false"] {
+    display: none;
+}
