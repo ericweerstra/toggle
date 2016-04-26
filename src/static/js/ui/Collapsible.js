@@ -1,7 +1,5 @@
-import Util from 'utils/Util';
 import Observer from 'conditioner/utils/Observer';
 import Toggle from 'toggle/Toggle';
-import { whichTransitionEvent } from 'utils/whichTransitionEvent';
 
 const INIT_SELECTOR = 'collapsible-init',
       INNER_SELECTOR = '.collapsible-inner',
@@ -37,7 +35,6 @@ class Collapsible {
 
         this._height = innerElement.offsetHeight + marginBottom;
         this._toggle = new Toggle(element, options);
-        this._transitionEvent = whichTransitionEvent();
         this._windowWidth = window.innerWidth;
 
         this._onActiveFn = () => this._expand();
@@ -62,13 +59,11 @@ class Collapsible {
         Observer.subscribe(this._toggle, this._toggle.activeEvent, this._onActiveFn);
         Observer.subscribe(this._toggle, this._toggle.inActiveEvent, this._onInActiveFn);
 
-        // reflow is needed with some css animation or transitions
-        //Util.reflow(this._element);
         if (this._toggle.active) { this._toggle.activate(); }
 
         // bind listeners
         window.addEventListener('resize', this._onResizeFn);
-        this._element.addEventListener(this._transitionEvent, this._transitionEndFn);
+        this._element.addEventListener(TRANSITION_END_EVENT, this._transitionEndFn);
 
     }
 
@@ -95,7 +90,7 @@ class Collapsible {
      */
     _collapse() {
         this.reset();
-        Util.reflow(this._element);
+        let reflow = this._element.offsetHeight; // reflow is needed with some css animation or transitions
         this._element.style.height = 0;
         this._expanded = false;
     }
@@ -162,7 +157,7 @@ class Collapsible {
         Observer.unsubscribe(this._toggle, this._toggle.inActiveEvent, this._onInActiveFn);
 
         window.removeEventListener('resize', this._onResizeFn);
-        this._element.removeEventListener(this._transitionEvent, this._transitionEndFn);
+        this._element.removeEventListener(TRANSITION_END_EVENT, this._transitionEndFn);
 
     }
 

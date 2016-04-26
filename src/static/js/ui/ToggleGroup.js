@@ -1,6 +1,6 @@
 import Toggle from 'toggle/Toggle';
 import Trigger from 'toggle/Trigger';
-//import Collapsible from 'ui/Collapsible';
+import Collapsible from 'ui/Collapsible';
 
 /**
  * Default values for attribute and states.
@@ -9,8 +9,8 @@ import Trigger from 'toggle/Trigger';
 const TRIGGER_METHOD = 'switch',
       TOGGLE_TYPE = 'Toggle',
       TYPES = {
-          Toggle: Toggle/*,
-          Collapsible: Collapsible*/
+          Toggle: Toggle,
+          Collapsible: Collapsible
       };
 
 /**
