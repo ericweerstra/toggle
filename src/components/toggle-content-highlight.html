@@ -1,0 +1,14 @@
+{% highlight 'html' %}
+<input type="radio"
+       id="radio-on"
+       data-module="toggle/Trigger"
+       data-options='{"event":"change","method":"activate","targets":"toggle-content","toggle":true}'>
+
+<input type="radio"
+       id="radio-off"
+       data-module="toggle/Trigger"
+       data-options='{"event":"change","method":"deactivate","targets":"toggle-content,radio-on"}'>
+
+<p id="toggle-content"
+   data-module="toggle/Toggle">...</p>
+{% endhighlight %}

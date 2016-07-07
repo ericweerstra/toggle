@@ -1,0 +1,14 @@
+<div role="radiogroup" aria-labelledby="group-label-radio" class="form-items-inline">
+    <span id="group-label-radio" class="legend" tabindex="-1">Toggle content</span>
+
+    <div class="form-item">
+        <input type="radio" name="radio" id="radio-on" aria-labelledby="radio-on-label" data-module="toggle/Trigger" data-options='{"event":"change","method":"activate","targets":"toggle-content","toggle":true}'>
+        <label for="radio-on" id="radio-on-label" class="arrow">On</label>
+    </div>
+
+    <div class="form-item">
+        <input type="radio" name="radio" id="radio-off" aria-labelledby="radio-off-label" data-module="toggle/Trigger" data-options='{"event":"change","method":"deactivate","targets":"toggle-content,radio-on"}'>
+        <label for="radio-off" id="radio-off-label">Off</label>
+    </div>
+</div>
+<p id="toggle-content" data-module="toggle/Toggle" class="box">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dignissim mauris ac nunc consectetur, ac consectetur sem posuere. Maecenas lorem quam, lacinia in mauris eget, porttitor pellentesque lacus. Vivamus consectetur porta mauris, non semper dui pretium eget.</p>

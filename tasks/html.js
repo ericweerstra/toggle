@@ -9,7 +9,12 @@ var browsersync = require('browser-sync');
  */
 gulp.task('html-compile', function() {
     return gulp.src(config.html.src.templates)
-        .pipe(swig({ defaults: { cache: false } }))
+        .pipe(swig({
+            defaults: { cache: false },
+            setup: function(swig) {
+                require('swig-highlight').apply(swig);
+            }
+        }))
         .pipe(gulp.dest(config.html.dist.base))
         .pipe(browsersync.reload({ stream: true }));
 });

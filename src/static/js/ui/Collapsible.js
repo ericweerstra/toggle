@@ -135,14 +135,6 @@ class Collapsible {
     }
 
     /**
-     * Expose the transition end event.
-     * @public
-     */
-    get transitionEndEvent() {
-        return TRANSITION_END_EVENT;
-    }
-
-    /**
      * Unload and reset everything if conditions no longer apply.
      * @method unload
      * @public
