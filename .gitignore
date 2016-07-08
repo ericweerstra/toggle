@@ -11,8 +11,10 @@ npm-debug.log
 
 # Build and test tools
 *.zip
-
-
+dist/components
+dist/layout
+dist/static
+dist/index.html
 
 # Cache
 .sass-cache
