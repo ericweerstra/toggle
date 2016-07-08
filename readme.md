@@ -1,4 +1,4 @@
-# Toggle
+# Toggle demo
 
 ## How to: Setup development environment
 1. Make sure the following is installed on your machine:
