@@ -27,7 +27,7 @@ gulp.task('dev', [
 
 gulp.task('dist', [
     'clean',
-    'docs-compile',
+    /*'docs-compile',*/
     'html-compile',
     'img-optimize',
     'css-compile',

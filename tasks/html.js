@@ -8,7 +8,7 @@ var browsersync = require('browser-sync');
  * Task: HTML Compile
  */
 gulp.task('html-compile', function() {
-    return gulp.src(config.html.src.templates)
+    return gulp.src(config.html.src.index)
         .pipe(swig({
             defaults: { cache: false },
             setup: function(swig) {

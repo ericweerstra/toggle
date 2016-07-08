@@ -63,6 +63,7 @@ module.exports = {
 
     html: {
         src: {
+            index: base.src + '/index.html',
             templates: base.src + '/**/*.html',
             layout: base.src + '/layout/*.html',
             components: base.src + '/components/**/*.html'
