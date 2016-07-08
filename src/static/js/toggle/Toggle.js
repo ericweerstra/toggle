@@ -1,5 +1,5 @@
 import Controller from 'toggle/Controller';
-import Observer from 'conditioner/utils/Observer';
+import Observer from 'utils/Observer';
 
 /**
  * Default values for attribute and states.

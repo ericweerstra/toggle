@@ -1,4 +1,4 @@
-import Observer from 'conditioner/utils/Observer';
+import Observer from 'utils/Observer';
 import Toggle from 'toggle/Toggle';
 
 const INIT_SELECTOR = 'collapsible-init',

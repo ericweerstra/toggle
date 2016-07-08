@@ -1,4 +1,4 @@
-# Frontend Bootstrap
+# Toggle
 
 ## How to: Setup development environment
 1. Make sure the following is installed on your machine:
@@ -19,29 +19,9 @@
 ```
 gulp dev
 ```
-Then point your browser to `http://localhost:3000/`
+Then point your browser to `http://localhost:8000/`
 
 ## How to: Build
 ```
 gulp dist
-```
-
-## How to: Test
-```
-gulp test
-```
-The test suite contains:
-- JavaScript code linting
-- Sass file code linting
-
-## How to: Upload
-Add a `.env` file to the project root with your FTP credentials:
-```
-UPLOAD_HOST=ftp.example.org
-UPLOAD_USER=username
-UPLOAD_PASSWORD=password
-```
-Then run:
-```
-gulp upload
 ```

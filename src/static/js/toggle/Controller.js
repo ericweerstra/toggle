@@ -1,4 +1,4 @@
-import Observer from 'conditioner/utils/Observer';
+import Observer from 'utils/Observer';
 
 /**
  * Class Controller.
