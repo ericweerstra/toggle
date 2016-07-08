@@ -1,7 +1,7 @@
 # Toggle
 Makes toggling DOM elements easy and adjustable.
 
-[Demo](http://visualformation.com/toggle)
+[Demo](http://visualformation.com/toggle)   
 [Demo code](https://github.com/ericweerstra/toggle/tree/demo)
 
 ## Requirements
