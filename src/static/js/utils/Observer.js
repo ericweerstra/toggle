@@ -1,6 +1,7 @@
 /**
+ * By Peeke Kuepers (https://gist.github.com/peeke/42a3f30c2a3856c65c224cc8a47b95f9)
  * Used for inter-object communication.
- * (Semi-)drop in replacement for Rik Schennink's Observer.
+ * (Semi-)drop in replacement for Rik Schennink's Observer (https://github.com/rikschennink/conditioner/blob/master/src/utils/Observer.js)
  *
  * Implementation differences:
  * - ES6
