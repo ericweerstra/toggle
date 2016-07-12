@@ -17,6 +17,7 @@ Makes toggling DOM elements easy and adjustable.
 * `toggle` - Set this options to true if you want the trigger to act like a toggle itself
 * `event` - Trigger event, default is 'click'
 * `method` - Options are 'activate', 'deactivate' and (default) 'switch'
+* `preventDefault` - Cancel the event, default is true 
 * `group` - Optional group name
 
 ## Toggle options
