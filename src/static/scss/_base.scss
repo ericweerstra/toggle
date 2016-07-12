@@ -35,6 +35,10 @@ main {
         margin-bottom: 30px;
     }
 
+    > h1 {
+        margin-bottom: 24px;
+    }
+
 }
 
 ul {
@@ -143,6 +147,12 @@ label {
 .box {
     margin-top: 17px;
     @include box-base;
+}
+
+.toggle-text {
+    &[data-toggle-active="false"] {
+        display: none;
+    }
 }
 
 .form-items-inline {
