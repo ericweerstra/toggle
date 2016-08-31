@@ -1,11 +1,9 @@
 import Observer from 'utils/Observer';
 import Toggle from 'toggle/Toggle';
 
-const INIT_SELECTOR = 'collapsible-init',
-      INNER_SELECTOR = '.collapsible-inner',
-      OPEN_SELECTOR = 'collapsible-open',
-      TRANSITION_PROP = 'height',
-      TRANSITION_END_EVENT = 'transitionEnd';
+const TRANSITION_PROP = 'height';
+const TRANSITION_END_EVENT = 'transitionend';
+const COLLAPSIBLE_MOTION_CLASS = 'collapsible-transition';
 
 /**
  * Class Collapsible.
@@ -19,140 +17,187 @@ class Collapsible {
      * @param element
      * @param options
      */
-    constructor(element, options) {
-
-        this._element = element;
-        this._options = options || {};
-        this._expanded = false;
-
-        // check for inner element
-        let innerElement = this._element.querySelector(INNER_SELECTOR);
-        if (!innerElement) {
-            return;
-        }
-
-        let marginBottom = parseInt(window.getComputedStyle(innerElement, null).getPropertyValue('margin-bottom').replace('px', ''));
-
-        this._height = innerElement.offsetHeight + marginBottom;
-        this._toggle = new Toggle(element, options);
-        this._windowWidth = window.innerWidth;
-
-        this._onActiveFn = () => this._expand();
-        this._onInActiveFn = () => this._collapse();
-        this._onResizeFn = () => this._onResize();
-        this._transitionEndFn = e => this._onTransitionEnd(e);
-
-        this._initialize();
-
-    }
+	constructor(element, options) {
+		
+		this._element = element;
+		this._options = options || {};
+		
+		// check for inner element
+		this._collapsingElement = this._createCollapsingElement();
+		
+		this._toggle = new Toggle(element, this._options);
+		
+		this._initialize();
+		
+	}
 
     /**
      * Initialize
      * @private
      */
-    _initialize() {
+	_initialize() {
+		
+		this._expand = this._expand.bind(this);
+		this._collapse = this._collapse.bind(this);
+		this._onTransitionEnd = this._onTransitionEnd.bind(this);
+		
+		// bind listeners
+		Observer.subscribe(this._toggle, this._toggle.activeEvent, this._expand);
+		Observer.subscribe(this._toggle, this._toggle.inActiveEvent, this._collapse);
+		this._collapsingElement.addEventListener(TRANSITION_END_EVENT, this._onTransitionEnd);
 
-        // set once
-        this._element.style.height = 0;
-        this._element.classList.remove(INIT_SELECTOR);
+		this._setHeight(0);
 
-        Observer.subscribe(this._toggle, this._toggle.activeEvent, this._onActiveFn);
-        Observer.subscribe(this._toggle, this._toggle.inActiveEvent, this._onInActiveFn);
+		if (this._toggle.active) {
+			this._expand();
+		}
+		
+	}
+	
+	/**
+	 * Setup the containing element, which sets the Collapsible height
+	 * @returns {Element} - Returns the newly created wrapper element
+	 * @private
+	 */
+	_createCollapsingElement() {
+		
+		const collapsingElement = document.createElement('div');
+		
+		collapsingElement.classList.add(COLLAPSIBLE_MOTION_CLASS);
 
-        if (this._toggle.active) { this._toggle.activate(); }
+		this._element.parentNode.insertBefore(collapsingElement, this._element);
+		collapsingElement.appendChild(this._element);
+		
+		return collapsingElement;
+		
+	}
+	
+	/**
+	 * Check if Toggle is active and either expand or collapse.
+	 * @returns {number} - Returns the height the collapsible would have
+	 * @private
+	 */
+	_getHeight() {
 
-        // bind listeners
-        window.addEventListener('resize', this._onResizeFn);
-        this._element.addEventListener(TRANSITION_END_EVENT, this._transitionEndFn);
+		const style = this._collapsingElement.getAttribute('style');
 
-    }
+		this._setPrefixedStyle(this._collapsingElement, 'transition', 'none');
 
-    /**
-     * Check if Toggle is active and either expand or collapse.
-     * @private
-     */
-    _setHeight() {
-        !this._expanded ? this._expand() : this._collapse();
-    }
+		// Disable inline style, so we can measure the natural height
+		this._collapsingElement.removeAttribute('style');
+		this._reflow(this._collapsingElement);
 
-    /**
-     * Set the style height property with the original height value.
-     * @private
-     */
-    _expand() {
-        this._element.style.height = this._height + 'px';
-        this._expanded = true;
-    }
+		// Get the height
+		const height = this._collapsingElement.offsetHeight;
 
-    /**
-     * Set the style height property to zero after reset and reflow.
-     * @private
-     */
-    _collapse() {
-        this.reset();
-        let reflow = this._element.offsetHeight; // reflow is needed with some css animation or transitions
-        this._element.style.height = 0;
-        this._expanded = false;
-    }
+		// Re-apply the previously disabled styles
+		this._collapsingElement.setAttribute('style', style);
+		this._reflow(this._collapsingElement);
+		
+		return height;
+		
+	}
+	
+	/**
+	 * Set height, while skipping transitions
+	 * @param {String} value - the height style value to set the Collapsible to
+	 * @private
+	 */
+	_setHeight(value) {
+		
+		this._setPrefixedStyle(this._collapsingElement, 'transition', 'none');
+		
+		this._collapsingElement.style.height = value;
+		this._reflow(this._collapsingElement);
+		
+		this._setPrefixedStyle(this._collapsingElement, 'transition', '');
+		
+	}
+	
+	/**
+	 * Set the height to the amount of pixels, or directly set it to auto when transitionend event is unsupported
+	 * @private
+	 */
+	_expand() {
 
-    /**
-     * Reset on resize
-     * @private
-     */
-    _onResize() {
-        if (window.innerWidth !== this._windowWidth) {
-            this.reset();
-            this._expanded ? this._expand() : this._collapse();
-            this._windowWidth = window.innerWidth;
-        }
-    }
+		const height = this._getHeight() + 'px';
 
-    /**
-     * Handle transition end
-     * @private
-     */
-    _onTransitionEnd(e) {
-        if (e.propertyName === TRANSITION_PROP) {
-            if (this._toggle.active) {
-                this._element.classList.add(OPEN_SELECTOR);
-                this._element.style.height = 'auto';
-            }
-            else {
-                Observer.publish(this, TRANSITION_END_EVENT);
-            }
-        }
-    }
+		this._collapsingElement.style.height = height;
 
-    /**
-     * Reset method needed for window resizing.
-     * @public
-     */
-    reset() {
-        this._element.classList.remove(OPEN_SELECTOR);
-        this._element.removeAttribute('style');
-        this._height = this._element.offsetHeight;
-        this._element.style.height = this._height + 'px';
-    }
+	}
+	
+	/**
+	 * Get the height and transition this height to 0
+	 * @private
+	 */
+	_collapse() {
 
-    /**
-     * Unload and reset everything if conditions no longer apply.
-     * @method unload
-     * @public
-     */
-    unload() {
+		const height = this._getHeight();
 
-        this._toggle.unload();
-        this._element.classList.remove(OPEN_SELECTOR);
-        this._element.removeAttribute('style');
+		this._setHeight(height + 'px');
+		
+		this._collapsingElement.style.height = 0;
+		
+	}
+	
+	/**
+	 * Set height to auto when the transition has ended, to make sure the Collapsible stays as responsvie as possible
+	 * @param {Event} e - Event object
+	 * @private
+	 */
+	_onTransitionEnd(e) {
 
-        Observer.unsubscribe(this._toggle, this._toggle.activeEvent, this._onActiveFn);
-        Observer.unsubscribe(this._toggle, this._toggle.inActiveEvent, this._onInActiveFn);
+		if (e.propertyName === TRANSITION_PROP && this._toggle.active) {
+			this._setHeight('auto');
+		}
 
-        window.removeEventListener('resize', this._onResizeFn);
-        this._element.removeEventListener(TRANSITION_END_EVENT, this._transitionEndFn);
+	}
 
-    }
+	/**
+	 * Reflow utility function
+	 * @param element
+	 * @returns {number}
+	 * @private
+	 */
+	_reflow(element) {
+		return element.offsetHeight;
+	}
+
+	/**
+	 * Utility function to apply a prefixed style rule to an element
+	 * @param element
+	 * @param property
+	 * @param value
+	 * @private
+	 */
+	_setPrefixedStyle(element, property, value) {
+
+		let prefixes = ['-webkit-', '-moz-', '-ms-'];
+		element.style[property] = value;
+
+		prefixes.forEach(prefix => element.style[prefix + property] = value);
+
+	}
+	
+	/**
+	 * Unload and reset everything if conditions no longer apply.
+	 */
+	unload() {
+
+		this._element.removeAttribute('style');
+
+		Observer.unsubscribe(this._toggle, this._toggle.activeEvent, this._expand);
+		Observer.unsubscribe(this._toggle, this._toggle.inActiveEvent, this._collapse);
+
+		this._toggle.unload();
+		this._collapsingElement.parentNode.insertBefore(this._element, this._collapsingElement);
+		this._collapsingElement.parentNode.removeChild(this._collapsingElement);
+
+		this._element.removeEventListener(TRANSITION_END_EVENT, this._onTransitionEnd);
+
+	}
 
 }
 
 export default Collapsible;
+
