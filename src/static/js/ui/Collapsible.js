@@ -1,3 +1,4 @@
+import { reflow, setPrefixedStyle } from 'utils/DOMHelpers';
 import Observer from 'utils/Observer';
 import Toggle from 'toggle/Toggle';
 
@@ -78,24 +79,7 @@ class Collapsible {
 	 * @private
 	 */
 	_getHeight() {
-
-		const style = this._collapsingElement.getAttribute('style');
-
-		this._setPrefixedStyle(this._collapsingElement, 'transition', 'none');
-
-		// Disable inline style, so we can measure the natural height
-		this._collapsingElement.removeAttribute('style');
-		this._reflow(this._collapsingElement);
-
-		// Get the height
-		const height = this._collapsingElement.offsetHeight;
-
-		// Re-apply the previously disabled styles
-		this._collapsingElement.setAttribute('style', style);
-		this._reflow(this._collapsingElement);
-		
-		return height;
-		
+		return this._element.offsetHeight;
 	}
 	
 	/**
@@ -104,13 +88,16 @@ class Collapsible {
 	 * @private
 	 */
 	_setHeight(value) {
-		
-		this._setPrefixedStyle(this._collapsingElement, 'transition', 'none');
-		
+
+		// Disable transitions
+		setPrefixedStyle(this._collapsingElement, 'transition', 'none');
+
+		// Set height
 		this._collapsingElement.style.height = value;
-		this._reflow(this._collapsingElement);
-		
-		this._setPrefixedStyle(this._collapsingElement, 'transition', '');
+		reflow(this._collapsingElement);
+
+		// Enable transitions
+		setPrefixedStyle(this._collapsingElement, 'transition', '');
 		
 	}
 	
@@ -119,11 +106,7 @@ class Collapsible {
 	 * @private
 	 */
 	_expand() {
-
-		const height = this._getHeight() + 'px';
-
-		this._collapsingElement.style.height = height;
-
+		this._collapsingElement.style.height = this._getHeight() + 'px';
 	}
 	
 	/**
@@ -131,13 +114,8 @@ class Collapsible {
 	 * @private
 	 */
 	_collapse() {
-
-		const height = this._getHeight();
-
-		this._setHeight(height + 'px');
-		
+		this._setHeight(this._getHeight() + 'px');
 		this._collapsingElement.style.height = 0;
-		
 	}
 	
 	/**
@@ -150,32 +128,6 @@ class Collapsible {
 		if (e.propertyName === TRANSITION_PROP && this._toggle.active) {
 			this._setHeight('auto');
 		}
-
-	}
-
-	/**
-	 * Reflow utility function
-	 * @param element
-	 * @returns {number}
-	 * @private
-	 */
-	_reflow(element) {
-		return element.offsetHeight;
-	}
-
-	/**
-	 * Utility function to apply a prefixed style rule to an element
-	 * @param element
-	 * @param property
-	 * @param value
-	 * @private
-	 */
-	_setPrefixedStyle(element, property, value) {
-
-		let prefixes = ['-webkit-', '-moz-', '-ms-'];
-		element.style[property] = value;
-
-		prefixes.forEach(prefix => element.style[prefix + property] = value);
 
 	}
 	
@@ -200,4 +152,3 @@ class Collapsible {
 }
 
 export default Collapsible;
-
