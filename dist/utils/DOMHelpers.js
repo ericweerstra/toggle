@@ -1,0 +1,1 @@
+define(["exports","module"],function(e,t){"use strict";var r={reflow:function(e){return e.offsetHeight},setPrefixedStyle:function(e,t,r){var n=["","-webkit-","-moz-","-ms-"];n.forEach(function(n){return e.style[n+t]=r})}};t.exports=r});
