@@ -303,6 +303,11 @@ input[data-toggle-active="true"] + .arrow {
             border-bottom-left-radius: $border-radius;
             border-bottom-right-radius: $border-radius;
         }
+
+        > div {
+            margin-top: -1px;
+        }
+
     }
 
     h2 {
@@ -317,14 +322,9 @@ input[data-toggle-active="true"] + .arrow {
         &[aria-selected="true"] {
             background-color: #e6e6e6;
         }
-
-        /*&:hover, &[aria-selected="true"]:hover {
-            background-color: #f6f6f6;
-        }*/
     }
 
     .accordion-panel {
-        margin-top: -1px;
         padding: 12px;
         transition: height 0.3s ease-in-out;
     }
