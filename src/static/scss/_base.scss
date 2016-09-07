@@ -256,19 +256,34 @@ input[data-toggle-active="true"] + .arrow {
 }
 
 .collapsible {
-    overflow: hidden;
     margin-top: -1px;
     border: 1px solid #ccc;
     border-top: 0;
-    transition: height 0.3s ease-in-out;
+    padding: 12px;
+    animation: collapsible-init 1s;
 
     p {
         margin: 0;
     }
 }
 
-.collapsible-inner {
-    padding: 12px;
+.collapsible-transition {
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+// Hides the collapsible for a second, to give JS a chance to initialize
+// This way, without js the collapsible will still become visible after a second
+@keyframes collapsible-init {
+
+    0%, 100% {
+        height: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        overflow: hidden;
+    }
 }
 
 
@@ -310,6 +325,7 @@ input[data-toggle-active="true"] + .arrow {
 
     .accordion-panel {
         margin-top: -1px;
+        padding: 12px;
         transition: height 0.3s ease-in-out;
     }
 
