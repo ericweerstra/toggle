@@ -1,0 +1,350 @@
+$font-base: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$border-radius: 4px;
+$spacing: 20px;
+
+body {
+    font-family: $font-base;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+}
+h1, h2, h3 {
+    font-weight: 500;
+    color: #333;
+}
+
+section > h1 {
+    padding-bottom: 8px;
+    margin: 30px 0 24px;
+    border-bottom: 1px solid #eee;
+    font-size: 18px;
+}
+
+main {
+    margin: 0 auto;
+    max-width: 1100px;
+    box-sizing: border-box;
+    padding: 60px 30px;
+
+    > section {
+        margin-bottom: 30px;
+    }
+
+    > h1 {
+        margin-bottom: 24px;
+    }
+
+}
+
+ul {
+    list-style-type: none;
+    padding-left:0;
+    margin: 0;
+}
+
+label {
+    vertical-align: middle;
+}
+
+@mixin btn-base {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-family: $font-base;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+
+    &:focus {
+        outline: 0;
+    }
+
+    &:hover, &[data-toggle-active="true"]:hover {
+        background-color: #f6f6f6;
+    }
+
+    &[data-toggle-active="true"] {
+        border-color: #8c8c8c;
+        background-color: #e6e6e6;
+    }
+}
+
+@mixin box-base {
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: $border-radius;
+
+    &[data-toggle-active="false"],
+    &[aria-hidden="true"] {
+        position: absolute;
+        left: -9999px;
+    }
+}
+
+@mixin arrow-base($size, $offset-top, $offset-left, $color, $border-color) {
+
+    &:before, &:after {
+        bottom: -($size + $offset-top);
+       	left: 50%;
+       	border: solid transparent;
+       	content: '';
+       	height: 0;
+       	width: 0;
+       	position: absolute;
+       	pointer-events: none;
+        z-index: 1;
+    }
+
+    &:after {
+       	border-bottom-color: $color;
+       	border-width: $size - 1;
+       	margin-left: -(($size + $offset-left) - 1);
+        margin-top: 2px;
+    }
+
+    &:before {
+       	border-bottom-color: $border-color;
+       	border-width: $size;
+       	margin-left: -($size + $offset-left);
+    }
+
+}
+
+.btn {
+    @include btn-base;
+    border-radius: $border-radius;
+
+    &:hover, &[data-toggle-active="true"]:hover {
+        border-color: #adadad;
+    }
+
+    &.arrow {
+        &[data-toggle-active="true"], &[aria-expanded="true"] {
+            @include arrow-base(11px, 8px, 0px, #fff, #ccc);
+        }
+    }
+}
+
+.box {
+    margin-top: 17px;
+    @include box-base;
+}
+
+.toggle-text {
+    &[data-toggle-active="false"] {
+        display: none;
+    }
+}
+
+.form-items-inline {
+    display: flex;
+
+    .legend {
+        margin-right: $spacing;
+    }
+
+    .form-item {
+        position: relative;
+    }
+
+    .form-item + .form-item {
+        margin-left: 10px;
+    }
+}
+
+input[data-toggle-active="true"] + .arrow {
+    @include arrow-base(11px, 7px, 11px, #fff, #ccc);
+}
+
+.btn-wrapper {
+    display: flex;
+
+    li:nth-child(1n+2) {
+        margin-left: $spacing;
+    }
+}
+
+
+.tabs {
+
+    display: flex;
+    margin-bottom: -1px;
+
+    li {
+        margin-right: -1px;
+
+        &:first-child a {
+            border-top-left-radius: $border-radius;
+        }
+
+        &:last-child a {
+            border-top-right-radius: $border-radius;
+        }
+    }
+
+    a {
+        @include btn-base;
+        z-index: 2;
+
+        &[aria-selected="true"] {
+            border-bottom-color: #fff;
+            &:hover {
+                background-color: #fff;
+            }
+        }
+    }
+
+}
+
+.tab-panels {
+    > section {
+
+        @include box-base;
+        border-top-left-radius: 0;
+
+        p {
+            margin: 0;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        &[aria-hidden="false"] {
+            p {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+
+.collapsible-wrapper {
+    width: 200px;
+}
+
+.collapsible-trigger {
+    @include btn-base;
+    width: 100%;
+    box-sizing: border-box;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+
+    h2 {
+
+    }
+}
+
+.collapsible {
+    margin-top: -1px;
+    border: 1px solid #ccc;
+    border-top: 0;
+    padding: 12px;
+    animation: collapsible-init 1s;
+
+    p {
+        margin: 0;
+    }
+}
+
+.collapsible-transition {
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+// Hides the collapsible for a second, to give JS a chance to initialize
+// This way, without js the collapsible will still become visible after a second
+@keyframes collapsible-init {
+
+    0%, 100% {
+        height: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        overflow: hidden;
+    }
+}
+
+
+.accordion {
+    > div {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        border-bottom: 0;
+
+        &:first-child {
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+        }
+
+        &:last-child {
+            border-bottom: 1px solid #ccc;
+            border-bottom-left-radius: $border-radius;
+            border-bottom-right-radius: $border-radius;
+        }
+
+        > div {
+            margin-top: -1px;
+        }
+
+    }
+
+    h2 {
+        @include btn-base;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: left;
+
+        &[aria-selected="true"] {
+            background-color: #e6e6e6;
+        }
+    }
+
+    .accordion-panel {
+        padding: 12px;
+        transition: height 0.3s ease-in-out;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+// Highlight
+.hljs {
+    display: block;
+    padding: 18px;
+    margin-top: 20px;
+    border: 1px solid #eee;
+    border-radius: $border-radius;
+    background-color: #f7f7f9;
+    white-space: pre-wrap;
+}
+
+.hljs-title { color:#000080; }
+.hljs-attribute { color:#d01040; }
+.hljs-value { color:#008080; }

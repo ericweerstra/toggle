@@ -1,0 +1,72 @@
+{% extends 'layout/default.html' %}
+
+{% block body %}
+
+<main>
+
+    <h1>Toggle examples</h1>
+
+    <ul>
+        <li><a href="https://github.com/ericweerstra/toggle/">Code</a></li>
+        <li><a href="https://github.com/ericweerstra/toggle/tree/demo">Demo code</a></li>
+    </ul>
+
+    <section>
+        <h1>Standalone Toggle</h1>
+        <p>Example of a toggle/trigger without a target so it triggers itself.</p>
+        {% include 'components/standalone-toggle.html' %}
+        {% include 'components/standalone-toggle-highlight.html' %}
+    </section>
+
+    <section>
+        <h1>Basic example</h1>
+        <p>Most basic setup. Optional you can set data-toggle-active="true" to activate the Toggle by default</p>
+        {% include 'components/basic-toggle.html' %}
+        {% include 'components/basic-toggle-highlight.html' %}
+    </section>
+
+    <section>
+        <h1>Toggle content on/off</h1>
+        <p>Instead of the default switch method, you can use the activate and deactivate as a option.</p>
+        {% include 'components/toggle-content.html' %}
+        {% include 'components/toggle-content-highlight.html' %}
+    </section>
+
+    <section>
+        <h1>Toggles within a Group</h1>
+        <p>If part of a group it checks if anybody else within the group is active. If so it will deactivate this first before becoming active itself.</p>
+        {% include 'components/toggle-group.html' %}
+        {% include 'components/toggle-group-highlight.html' %}
+    </section>
+
+    <section>
+        <h1>Toggle with Aria attributes</h1>
+        <p>You can use Aria attributes instead of the default toggle-active attribute.</p>
+        {% include 'components/toggle-aria.html' %}
+        {% include 'components/toggle-aria-highlight.html' %}
+    </section>
+
+    <section>
+        <h1>Toggle group wrapper module tabs example</h1>
+        <p>A Toggle Group wrapper module that uses the Toggle/Trigger modules. It automatically sets the necessary properties according to the options used.</p>
+        {% include 'components/tabs.html' %}
+        {% include 'components/tabs-highlight.html' %}
+    </section>
+
+    <section>
+        <h1>Collapsible wrapper module</h1>
+        <p>A Toggle wrapper module that sets the hight of the target so it can be collapsed.</p>
+        {% include 'components/collapsible.html' %}
+        {% include 'components/collapsible-highlight.html' %}
+    </section>
+
+    <section>
+        <h1>Toggle group wrapper module accordion example</h1>
+        <p>A Toggle Group wrapper module that uses the Toggle/Trigger modules. It automatically sets the necessary properties according to the options used.</p>
+        {% include 'components/accordion.html' %}
+        {% include 'components/accordion-highlight.html' %}
+    </section>
+
+</main>
+
+{% endblock %}

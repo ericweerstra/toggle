@@ -1,33 +1,27 @@
-# Toggle
-Makes toggling DOM elements easy and adjustable.
+# Toggle demo
 
-[Demo](http://visualformation.com/toggle)   
-[Demo code](https://github.com/ericweerstra/toggle/tree/demo)
+## How to: Setup development environment
+1. Make sure the following is installed on your machine:
+    - [Node.js](http://nodejs.org/)
+2. Run this command to install the global dependencies:
 
-## Basic example
+    ```
+    npm install -g gulp
+    ```
+3. Run these commands to install the project-specific dependencies:
 
+    ```
+    npm install
+    ```
+4. Done! You can now start your development server.
+
+## How to: Start the development server
 ```
-<a id="trigger"
-   data-module="toggle/Trigger"
-   data-options='{"targets":"toggle"}'>Trigger</a>
-   
-<p id="toggle"
-   data-module="toggle/Toggle"'>Toggle</p>
+gulp dev
 ```
+Then point your browser to `http://localhost:8000/`
 
-## Trigger options
-* `targets` - Comma separated string of (multiple) toggle id's
-* `toggle` - Set this options to true if you want the trigger to act like a toggle itself
-* `event` - Trigger event, default is 'click'
-* `method` - Options are 'activate', 'deactivate' and (default) 'switch'
-* `preventDefault` - Cancel the event, default is true 
-* `group` - Optional group name
-
-## Toggle options
-* `attribute` - The Toggle attribute, default is data-toggle-active but it can be a Aria attribute like aria-hidden
-* `activeState` - Value for the Toggle active state attribute, default true
-* `inActiveState` - Value for the Toggle inactive state attribute, default false
-* `group` - Optional group name
-
-## Requirements
-Uses [ConditionerJS](http://conditionerjs.com/) for initialization but it can be used without.
+## How to: Build
+```
+gulp dist
+```
