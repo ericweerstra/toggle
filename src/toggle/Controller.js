@@ -81,7 +81,7 @@ class Controller {
      * @param {String} element
      */
     _getToggle(element) {
-        return this._toggles.find(toggle => toggle.id === element);
+        return this._toggles.filter(toggle => toggle.id === element)[0];
     }
 
     /**
